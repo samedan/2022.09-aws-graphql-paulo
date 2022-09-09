@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "blogappcourseapp",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "C:\\_apps\\nextjs\\2022.09_blog-paulo\\blogapp-course\\amplify\\backend\\api\\blogappcourseapp\\schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 365,
+      "apiKeyExpirationDate": "2023-09-09T08:44:04.345Z",
+      "keyDescription": "public api key"
+    },
+    "conflictResolution": {},
+    "additionalAuthTypes": [
+      {
+        "mode": "AMAZON_COGNITO_USER_POOLS",
+        "cognitoUserPoolId": "authblogappcourseapp83941dba"
+      }
+    ]
+  }
+}

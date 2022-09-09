@@ -1,0 +1,30 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-blogappcourseapp-dev-154021-authRole",
+      "UnauthRoleArn": "arn:aws:iam::453414768438:role/amplify-blogappcourseapp-dev-154021-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::453414768438:role/amplify-blogappcourseapp-dev-154021-authRole",
+      "Region": "eu-west-3",
+      "DeploymentBucketName": "amplify-blogappcourseapp-dev-154021-deployment",
+      "UnauthRoleName": "amplify-blogappcourseapp-dev-154021-unauthRole",
+      "StackName": "amplify-blogappcourseapp-dev-154021",
+      "StackId": "arn:aws:cloudformation:eu-west-3:453414768438:stack/amplify-blogappcourseapp-dev-154021/ba0954d0-2f7b-11ed-9e6f-0e717e437584",
+      "AmplifyAppId": "d5ug187c7vubi",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-blogappcourseapp-dev-154021-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "blogappcourseapp83941dba": {}
+      },
+      "function": {
+        "blogappcourseapp83941dbaCustomMessage": {
+          "REDIRECTURL": "",
+          "EMAILSUBJECT": "",
+          "EMAILMESSAGE": "Verify your account by clicking to this link ",
+          "deploymentBucketName": "amplify-blogappcourseapp-dev-154021-deployment",
+          "s3Key": "amplify-builds/blogappcourseapp83941dbaCustomMessage-61317070555a42434661-build.zip"
+        }
+      }
+    }
+  }
+}
