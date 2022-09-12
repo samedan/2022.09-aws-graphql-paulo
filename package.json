@@ -11,11 +11,13 @@
   "dependencies": {
     "@aws-amplify/ui-react": "^1.2.26",
     "aws-amplify": "^4.3.34",
+    "moment": "^2.29.4",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-markdown": "^8.0.3",
+    "react-markdown": "^8.0.0",
     "react-simplemde-editor": "^5.0.2",
+    "remark-gfm": "^3.0.1",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

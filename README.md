@@ -1,5 +1,13 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Original Git Course
+
+https://github.com/pdichone/amplify-appsync-blog-course
+
+## Dan's Git
+
+https://github.com/samedan/2022.09-aws-graphql-paulo
+
 ## Getting Started
 
 First, run the development server:
