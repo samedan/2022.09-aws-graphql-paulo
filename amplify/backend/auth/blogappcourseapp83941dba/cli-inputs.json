@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "blogappcourseapp83941dba_identitypool_83941dba",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "blogap83941dba",
     "userPoolName": "blogappcourseapp83941dba_userpool_83941dba",
     "autoVerifiedAttributes": [
@@ -77,7 +77,9 @@
     "parentStack": {
       "Ref": "AWS::StackId"
     },
-    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"CustomMessage\",\n    \"lambdaFunctionName\": \"blogappcourseapp83941dbaCustomMessage\"\n  }\n]",
+    "authTriggerConnections": [
+      "{\"triggerType\":\"CustomMessage\",\"lambdaFunctionName\":\"blogappcourseapp83941dbaCustomMessage\"}"
+    ],
     "permissions": [],
     "authProviders": []
   }

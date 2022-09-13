@@ -14,7 +14,8 @@
     },
     "categories": {
       "auth": {
-        "blogappcourseapp83941dba": {}
+        "blogappcourseapp83941dba": {},
+        "true": {}
       },
       "function": {
         "blogappcourseapp83941dbaCustomMessage": {

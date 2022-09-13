@@ -14,6 +14,12 @@ import { v4 as uuid } from "uuid";
 
 function EditPost() {
   const [post, setPost] = useState(null);
+  // coverImage is coming from the DBB
+  const [coverImage, setCoverImage] = useState(null);
+  // localImage is coming from the Form on the page
+  const [localImage, setLocalImage] = useState(null);
+  const fileInput = useRef(null);
+
   const router = useRouter();
   const { id } = router.query;
 
@@ -26,12 +32,27 @@ function EditPost() {
         variables: { id },
       });
       setPost(postData.data.getPost);
+      if (postData.data.getPost.coverImage) {
+        updateCoverImage(postData.data.getPost.coverImage);
+      }
     }
   }, [id]);
+
+  async function updateCoverImage(coverImage) {
+    const imageKey = await Storage.get(coverImage);
+    setCoverImage(imageKey);
+  }
 
   if (!post) return <p>No post found</p>;
   function onChange(e) {
     setPost(() => ({ ...post, [e.target.name]: e.target.value }));
+  }
+
+  function handleChange(e) {
+    const fileUpload = e.target.files[0];
+    if (!fileUpload) return;
+    setCoverImage(fileUpload);
+    setLocalImage(URL.createObjectURL(fileUpload));
   }
 
   const { title, content } = post;
@@ -43,6 +64,11 @@ function EditPost() {
       content,
       title,
     };
+    if (coverImage && localImage) {
+      const fileName = `${coverImage.name}_${uuid()}`;
+      postUpdated.coverImage = fileName;
+      await Storage.put(fileName, coverImage);
+    }
     await API.graphql({
       query: updatePost,
       variables: { input: postUpdated },
@@ -51,11 +77,18 @@ function EditPost() {
     router.push(`/my-posts`);
   }
 
+  async function uploadImage() {
+    fileInput.current.click();
+  }
+
   return (
     <div>
       <h1 className="text-3xl font-semibold tracking-wide mt-6 mb-2">
         Edit Post
       </h1>
+      {coverImage && (
+        <img src={localImage ? localImage : coverImage} className="mt-4" />
+      )}
       <input
         onChange={onChange}
         name="title"
@@ -67,6 +100,18 @@ function EditPost() {
         value={post.content}
         onChange={(value) => setPost({ ...post, content: value })}
       />
+      <input
+        type="file"
+        ref={fileInput}
+        className="absolute w-0 h-0"
+        onChange={handleChange}
+      />
+      <button
+        className="mb-4 bg-purple-600 text-white font-semibold px-8 py-2 rounded-lg"
+        onClick={uploadImage}
+      >
+        Upload/Replace Cover Image
+      </button>{" "}
       <button
         className="mb-4 bg-blue-600 text-white font-semibold px-8 py-2 rounded-lg"
         onClick={updateCurrentPost}

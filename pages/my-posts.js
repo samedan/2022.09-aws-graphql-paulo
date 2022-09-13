@@ -1,4 +1,4 @@
-import { API, Auth } from "aws-amplify";
+import { API, Storage, Auth } from "aws-amplify";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { postsByUsername } from "../src/graphql/queries";
@@ -24,7 +24,19 @@ export default function MyPosts() {
       // variables: { username },
       variables: { username: userName },
     });
-    setPosts(postData.data.postsByUsername.items);
+    const { items } = postData.data.postsByUsername;
+    // add Images to the Posts that have an Image
+    const postsWithPossibleImages = await Promise.all(
+      items.map(async (post) => {
+        if (post.coverImage) {
+          post.coverImage = await Storage.get(post.coverImage);
+        }
+        return post;
+      })
+    );
+    setPosts(postsWithPossibleImages);
+
+    // setPosts(postData.data.postsByUsername.items);
   }
 
   function showDeleteModal() {
@@ -52,6 +64,12 @@ export default function MyPosts() {
           className="py-8 px-8 max-w-xxl mx-auto bg-white rounded-xl shadow-lg space-y-2 sm:py-1 sm:flex 
           sm:items-center sm:space-y-0 sm:space-x-6 mb-2"
         >
+          {post.coverImage && (
+            <img
+              src={post.coverImage}
+              className="w-36 h-36 bg-contain bg-center rounded-full sm:mx-0 sm:shrink-0"
+            />
+          )}
           <div className="text-center space-y-2 sm:text-left">
             <div className="space-y-0.5">
               <p className="text-lg text-black font-semibold">{post.title}</p>
