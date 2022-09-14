@@ -14,17 +14,8 @@
     },
     "categories": {
       "auth": {
-        "blogappcourseapp83941dba": {},
-        "true": {}
-      },
-      "function": {
-        "blogappcourseapp83941dbaCustomMessage": {
-          "REDIRECTURL": "",
-          "EMAILSUBJECT": "",
-          "EMAILMESSAGE": "Verify your account by clicking to this link ",
-          "deploymentBucketName": "amplify-blogappcourseapp-dev-154021-deployment",
-          "s3Key": "amplify-builds/blogappcourseapp83941dbaCustomMessage-61317070555a42434661-build.zip"
-        }
+        "true": {},
+        "blogappcourseapp980f8937": {}
       }
     }
   }

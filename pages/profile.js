@@ -10,6 +10,7 @@ function Profile() {
 
   async function checkUser() {
     const awsUser = await Auth.currentAuthenticatedUser();
+    console.log(awsUser);
     setUser(awsUser);
   }
 

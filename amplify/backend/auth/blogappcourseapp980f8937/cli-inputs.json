@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "blogappcourseapp83941dba_identitypool_83941dba",
+    "identityPoolName": "blogappcourseapp980f8937_identitypool_980f8937",
     "allowUnauthenticatedIdentities": true,
-    "resourceNameTruncated": "blogap83941dba",
-    "userPoolName": "blogappcourseapp83941dba_userpool_83941dba",
+    "resourceNameTruncated": "blogap980f8937",
+    "userPoolName": "blogappcourseapp980f8937_userpool_980f8937",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -31,12 +31,15 @@
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "blogap83941dba_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "blogap980f8937_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "83941dba",
-    "resourceName": "blogappcourseapp83941dba",
+    "sharedId": "980f8937",
+    "resourceName": "blogappcourseapp980f8937",
     "authSelections": "identityPoolAndUserPool",
-    "useDefault": "default",
+    "useDefault": "manual",
+    "usernameAttributes": [
+      "email"
+    ],
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
@@ -54,33 +57,16 @@
       ]
     },
     "breakCircularDependency": true,
-    "dependsOn": [
-      {
-        "category": "function",
-        "resourceName": "blogappcourseapp83941dbaCustomMessage",
-        "triggerProvider": "Cognito",
-        "attributes": [
-          "Arn",
-          "Name"
-        ]
-      }
-    ],
+    "dependsOn": [],
+    "thirdPartyAuth": false,
     "userPoolGroups": false,
-    "adminQueries": true,
-    "triggers": {
-      "CustomMessage": [
-        "verification-link"
-      ]
-    },
+    "adminQueries": false,
+    "triggers": {},
     "hostedUI": false,
-    "verificationBucketName": "blogappcourseapp83941dbaverificationbucket",
+    "authProviders": [],
     "parentStack": {
       "Ref": "AWS::StackId"
     },
-    "authTriggerConnections": [
-      "{\"triggerType\":\"CustomMessage\",\"lambdaFunctionName\":\"blogappcourseapp83941dbaCustomMessage\"}"
-    ],
-    "permissions": [],
-    "authProviders": []
+    "permissions": []
   }
 }

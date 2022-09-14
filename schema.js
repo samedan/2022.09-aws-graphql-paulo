@@ -17,10 +17,25 @@ type Post
   username: String
     @index(name: "postsByUsername", queryField: "postsByUsername")
   coverImage: String
-  comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"]) #check out: https://docs.amplify.aws/cli/graphql/data-modeling/#has-many-relationship
+  comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+  songs: [Song] @hasMany(indexName: "byPost", fields: ["id"])
 }
 
 type Comment
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "createdBy" }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  message: String
+  post: Post @belongsTo(fields: ["postID"])
+  postID: ID @index(name: "byPost")
+}
+
+type Song
   @model
   @auth(
     rules: [

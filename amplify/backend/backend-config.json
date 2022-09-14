@@ -6,7 +6,7 @@
       "dependsOn": [
         {
           "category": "auth",
-          "resourceName": "blogappcourseapp83941dba",
+          "resourceName": "blogappcourseapp980f8937",
           "attributes": [
             "UserPoolId"
           ]
@@ -17,16 +17,14 @@
           "defaultAuthentication": {
             "authenticationType": "API_KEY",
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 365,
-              "apiKeyExpirationDate": "2023-09-09T08:44:04.345Z",
-              "description": "public api key"
+              "apiKeyExpirationDays": 7
             }
           },
           "additionalAuthenticationProviders": [
             {
               "authenticationType": "AMAZON_COGNITO_USER_POOLS",
               "userPoolConfig": {
-                "userPoolId": "authblogappcourseapp83941dba"
+                "userPoolId": "authblogappcourseapp980f8937"
               }
             }
           ]
@@ -35,24 +33,16 @@
     }
   },
   "auth": {
-    "blogappcourseapp83941dba": {
+    "blogappcourseapp980f8937": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "blogappcourseapp83941dbaCustomMessage",
-          "triggerProvider": "Cognito",
-          "attributes": [
-            "Arn",
-            "Name"
-          ]
-        }
-      ],
+      "dependsOn": [],
       "customAuth": false,
       "frontendAuthConfig": {
         "socialProviders": [],
-        "usernameAttributes": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
         "signupAttributes": [
           "EMAIL"
         ],
@@ -70,13 +60,7 @@
       }
     }
   },
-  "function": {
-    "blogappcourseapp83941dbaCustomMessage": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    }
-  },
+  "function": {},
   "storage": {
     "postimages": {
       "service": "S3",
