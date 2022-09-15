@@ -8,6 +8,19 @@ https://github.com/pdichone/amplify-appsync-blog-course
 
 https://github.com/samedan/2022.09-aws-graphql-paulo
 
+## AWS Amplify data modeling and Relationships
+
+https://docs.amplify.aws/cli/graphql/data-modeling/
+
+## Amplify commands
+
+amplify mock api
+
+## delete mock data
+
+rm -r aplify/mock-data
+https://www.udemy.com/course/aws-appsync-amplify-with-react-graphql-course/learn/lecture/30816144#questions
+
 ## Getting Started
 
 First, run the development server:
