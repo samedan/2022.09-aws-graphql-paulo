@@ -67,5 +67,12 @@
       "providerPlugin": "awscloudformation",
       "dependsOn": []
     }
+  },
+  "hosting": {
+    "amplifyhosting": {
+      "service": "amplifyhosting",
+      "providerPlugin": "awscloudformation",
+      "type": "manual"
+    }
   }
 }

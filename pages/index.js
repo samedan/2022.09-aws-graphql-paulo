@@ -15,6 +15,7 @@ export default function Home() {
       query: listPosts,
     });
     const { items } = postData.data.listPosts;
+    console.log("items on index", items);
     // add Images to the Posts that have an Image
     const postsWithPossibleImages = await Promise.all(
       items.map(async (post) => {
@@ -33,21 +34,27 @@ export default function Home() {
         Latest posts:
       </h1>
 
-      {posts.map((post, index) => (
-        <Link key={index} href={`/posts/${post.id}`}>
-          <div className="my-6 pb-6 border-b border-gray-300">
-            {post.coverImage && (
-              <img
-                src={post.coverImage}
-                className="w-36 h-36 bg-contain bg-center rounded-full sm:mx-0 sm:shrink-0"
-              />
-            )}
-            <div className="cursor-pointer mt-2">
-              <h2 className="text-xl font-semibold" key={index}>
-                {post.title}
-              </h2>
-              <p className="text-gray-500 mt-2">Author: {post.username}</p>
-              {post.comments.items.length > 0 &&
+      {posts.map((post, index) => {
+        if (post.id === "[id]") {
+          return <div key={index}>id</div>;
+        } else {
+        }
+        return (
+          <Link key={index} href={`/posts/${post.id}`}>
+            <div className="my-6 pb-6 border-b border-gray-300">
+              {post.coverImage && (
+                <img
+                  src={post.coverImage}
+                  className="w-36 h-36 bg-contain bg-center rounded-full sm:mx-0 sm:shrink-0"
+                  alt=""
+                />
+              )}
+              <div className="cursor-pointer mt-2">
+                <h2 className="text-xl font-semibold" key={index}>
+                  {post.title}
+                </h2>
+                <p className="text-gray-500 mt-2">Author: {post.username}</p>
+                {/* {post.comments.items.length > 0 &&
                 post.comments.items.map((comment, index) => (
                   <div
                     key={index}
@@ -56,11 +63,12 @@ export default function Home() {
                     <p className="text-gray-500 mt-2">{comment.message}</p>
                     <p className="text-gray-200 mt-1">{comment.createdBy}</p>
                   </div>
-                ))}
+                ))} */}
+              </div>
             </div>
-          </div>
-        </Link>
-      ))}
+          </Link>
+        );
+      })}
     </div>
   );
 }

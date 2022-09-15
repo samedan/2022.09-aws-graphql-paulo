@@ -1,42 +1,64 @@
 import { API, Storage } from "aws-amplify";
 import { useRouter } from "next/router";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { useEffect, useState } from "react";
+import ReactMarkDown from "react-markdown";
 import "../../configureAmplify";
 import { listPosts, getPost } from "../../src/graphql/queries";
-import { useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
 import { createComment } from "../../src/graphql/mutations";
-// import SimpleMDE from "react-simplemde-editor";
-// prevents 'navigator' SSR error
 import dynamic from "next/dynamic";
+import { Auth, Hub } from "aws-amplify";
+import { v4 as uuid } from "uuid";
+
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
+// import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
-
-const initialState = { message: "" };
+const intialState = { message: "" };
 
 export default function Post({ post }) {
+  const [signedInUser, setSignedInUser] = useState(false);
   const [coverImage, setCoverImage] = useState(null);
-  const [comment, setComment] = useState(initialState);
+  const [comment, setComment] = useState(intialState);
   const [showMe, setShowMe] = useState(false);
-
+  const router = useRouter();
   const { message } = comment;
 
-  useEffect(() => {
-    updateCoverImage();
-  }, []);
+  // useEffect(() => {
+  //   async function updateCoverImage() {
+  //     if (post.coverImage) {
+  //       const imageKey = await Storage.get(post.coverImage);
+  //       setCoverImage(imageKey);
+  //     }
+  //   }
+  //   updateCoverImage();
+  // }, []);
 
+  //check for a logged in user or not
+  useEffect(() => {
+    authListener();
+  }, []); //check when app is loaded/mounted too!
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
   function toggle() {
     setShowMe(!showMe);
   }
 
-  async function updateCoverImage() {
-    if (post.coverImage) {
-      const imageKey = await Storage.get(post.coverImage);
-      setCoverImage(imageKey);
-    }
+  async function authListener() {
+    Hub.listen("auth", (data) => {
+      switch (data.payload.event) {
+        case "signIn":
+          return setSignedInUser(true);
+        case "signOut":
+          return setSignedInUser(false);
+      }
+    });
+    try {
+      await Auth.currentAuthenticatedUser();
+      setSignedInUser(true);
+    } catch (err) {}
   }
 
   async function createTheComment() {
@@ -46,56 +68,49 @@ export default function Post({ post }) {
     try {
       await API.graphql({
         query: createComment,
-        variables: { input: comment }, // comment is an {}
+        variables: { input: comment },
         authMode: "AMAZON_COGNITO_USER_POOLS",
       });
-      console.log("Comment created", comment);
     } catch (error) {
       console.log(error);
     }
     router.push("/my-posts");
   }
-  const router = useRouter();
 
-  const markdown = `${post.content}`;
-
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
-  console.log(post.content);
   return (
     <div>
       <h1 className="text-5xl mt-4 font-semibold tracing-wide">{post.title}</h1>
-      {coverImage && <img src={coverImage} className="mt-4" />}
+      {/* {coverImage && <img src={coverImage} className="mt4" alt="" />} */}
+
       <p className="text-sm font-light my-4">By {post.username}</p>
       <div className="mt-8">
-        {/* <ReactMarkdown className="prose" children={post.content} /> */}
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
+        <ReactMarkDown className="prose" children={post.content} />
       </div>
-      <div className="pY-8">
-        <button
-          type="button"
-          className="mb-4 bg-green-600 text-white font-semibold px-8 py-2 rounded-lg"
-          onClick={toggle}
-        >
-          Write a comment
-        </button>
+
+      <div>
+        {signedInUser && (
+          <button
+            type="button"
+            className="mb-4 bg-green-600 
+        text-white font-semibold px-8 py-2 rounded-lg"
+            onClick={toggle}
+          >
+            Write a Comment
+          </button>
+        )}
+
         {
           <div style={{ display: showMe ? "block" : "none" }}>
             <SimpleMDE
               value={comment.message}
               onChange={(value) =>
-                setComment({
-                  ...comment,
-                  message: value,
-                  postID: post.id, //
-                })
+                setComment({ ...comment, message: value, postID: post.id })
               }
             />
             <button
-              type="button"
-              className="mb-4 bg-blue-600 text-white  font-semibold px-8 py-2 rounded-lg"
               onClick={createTheComment}
+              type="button"
+              className="mb-4 bg-blue-600 text-white font-semibold px-8 py-2 rounded-lg"
             >
               Save
             </button>
@@ -111,11 +126,9 @@ export async function getStaticPaths() {
     query: listPosts,
   });
   const paths = postData.data.listPosts.items.map((post) => ({
-    params: {
-      id: post.id,
-    },
+    params: { id: post.id },
   }));
-  console.log(paths);
+  console.log("paths", paths);
   return {
     paths,
     fallback: true,
@@ -132,6 +145,6 @@ export async function getStaticProps({ params }) {
     props: {
       post: postData.data.getPost,
     },
-    revalidate: 1, // regenarate the page every second
+    revalidate: 1,
   };
 }

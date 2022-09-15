@@ -87,7 +87,11 @@ function EditPost() {
         Edit Post
       </h1>
       {coverImage && (
-        <img src={localImage ? localImage : coverImage} className="mt-4" />
+        <img
+          alt=""
+          src={localImage ? localImage : coverImage}
+          className="mt-4"
+        />
       )}
       <input
         onChange={onChange}

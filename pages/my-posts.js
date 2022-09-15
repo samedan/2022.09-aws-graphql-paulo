@@ -66,6 +66,7 @@ export default function MyPosts() {
         >
           {post.coverImage && (
             <img
+              alt=""
               src={post.coverImage}
               className="w-36 h-36 bg-contain bg-center rounded-full sm:mx-0 sm:shrink-0"
             />

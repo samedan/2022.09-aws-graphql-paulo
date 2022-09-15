@@ -14,6 +14,7 @@ https://docs.amplify.aws/cli/graphql/data-modeling/
 
 ## Amplify commands
 
+amplify configure project
 amplify mock api
 
 ## delete mock data
