@@ -24,6 +24,11 @@ export default function Post({ post }) {
   const router = useRouter();
   const { message } = comment;
 
+  //check for a logged in user or not
+  useEffect(() => {
+    authListener();
+  }, []); //check when app is loaded/mounted too!
+
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
@@ -37,11 +42,6 @@ export default function Post({ post }) {
   //   }
   //   updateCoverImage();
   // }, []);
-
-  //check for a logged in user or not
-  useEffect(() => {
-    authListener();
-  }, []); //check when app is loaded/mounted too!
 
   function toggle() {
     setShowMe(!showMe);
@@ -136,38 +136,38 @@ export async function getStaticPaths() {
   };
 }
 
-// export async function getStaticProps({ params }) {
-//   const { id } = params;
-//   const postData = await API.graphql({
-//     query: getPost,
-//     variables: { id },
-//   });
-//   return {
-//     props: {
-//       post: postData.data.getPost,
-//     },
-//     revalidate: 10,
-//   };
-// }
-
-export async function getServerSideProps(context) {
-  const { id } = context.params;
-  var postData = await API.graphql({ query: getPost, variables: { id } });
-
-  console.log(postData);
-  if (postData.data.getPost.title !== undefined) {
-    return {
-      props: {
-        post: postData.data.getPost,
-      },
-    };
-  } else {
-    return {
-      props: {
-        post: {
-          title: "Loading...",
-        },
-      },
-    };
-  }
+export async function getStaticProps({ params }) {
+  const { id } = params;
+  const postData = await API.graphql({
+    query: getPost,
+    variables: { id },
+  });
+  return {
+    props: {
+      post: postData.data.getPost,
+    },
+    revalidate: 10,
+  };
 }
+
+// export async function getServerSideProps(context) {
+//   const { id } = context.params;
+//   var postData = await API.graphql({ query: getPost, variables: { id } });
+
+//   console.log(postData);
+//   if (postData.data.getPost.title !== undefined) {
+//     return {
+//       props: {
+//         post: postData.data.getPost,
+//       },
+//     };
+//   } else {
+//     return {
+//       props: {
+//         post: {
+//           title: "Loading...",
+//         },
+//       },
+//     };
+//   }
+// }
