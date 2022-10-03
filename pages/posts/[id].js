@@ -24,6 +24,10 @@ export default function Post({ post }) {
   const router = useRouter();
   const { message } = comment;
 
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
   // useEffect(() => {
   //   async function updateCoverImage() {
   //     if (post.coverImage) {
@@ -39,9 +43,6 @@ export default function Post({ post }) {
     authListener();
   }, []); //check when app is loaded/mounted too!
 
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
   function toggle() {
     setShowMe(!showMe);
   }
@@ -131,20 +132,42 @@ export async function getStaticPaths() {
   console.log("paths", paths);
   return {
     paths,
-    fallback: true,
+    fallback: "blocking",
   };
 }
 
-export async function getStaticProps({ params }) {
-  const { id } = params;
-  const postData = await API.graphql({
-    query: getPost,
-    variables: { id },
-  });
-  return {
-    props: {
-      post: postData.data.getPost,
-    },
-    revalidate: 1,
-  };
+// export async function getStaticProps({ params }) {
+//   const { id } = params;
+//   const postData = await API.graphql({
+//     query: getPost,
+//     variables: { id },
+//   });
+//   return {
+//     props: {
+//       post: postData.data.getPost,
+//     },
+//     revalidate: 10,
+//   };
+// }
+
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+  var postData = await API.graphql({ query: getPost, variables: { id } });
+
+  console.log(postData);
+  if (postData.data.getPost.title !== undefined) {
+    return {
+      props: {
+        post: postData.data.getPost,
+      },
+    };
+  } else {
+    return {
+      props: {
+        post: {
+          title: "Loading...",
+        },
+      },
+    };
+  }
 }

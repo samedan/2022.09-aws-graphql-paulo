@@ -32,7 +32,7 @@
       "email"
     ],
     "userpoolClientLambdaRole": "blogap980f8937_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": false,
+    "userpoolClientSetAttributes": true,
     "sharedId": "980f8937",
     "resourceName": "blogappcourseapp980f8937",
     "authSelections": "identityPoolAndUserPool",

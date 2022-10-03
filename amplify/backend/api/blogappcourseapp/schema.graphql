@@ -33,3 +33,4 @@ type Comment
   post: Post @belongsTo(fields: ["postID"])
   postID: ID @index(name: "byPost")
 }
+    
